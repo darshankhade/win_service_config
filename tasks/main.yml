@@ -1,0 +1,24 @@
+---
+- name: Install 
+  win_chocolatey:
+    name: "{{ package_name }}"
+    params: "{{ parameters }}"
+    state: present
+
+- name: service start
+  win_service:
+    name: "{{ service_name }}"
+    start_mode: auto
+    state: started 
+
+- name: firewall rules
+  win_firewall_rule:
+    name: "{{ service_name }}"
+    localport: "{{ local_port }}"
+    action: allow
+    direction: in
+    protocol: "{{ protocol_name }}"
+    state: present
+    enabled: yes  
+
+# tasks file for win_service_config
